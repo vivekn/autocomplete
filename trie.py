@@ -33,7 +33,7 @@ class Trie(object):
         if self.value in wlist:
             results.add(self.value)
         if not self.children: return results
-        return reduce(lambda a, b: a | b, [node.all_prefixes() for node in self.children.values()]) | results
+        return reduce(lambda a, b: a | b, [node.all_prefixes(wlist) for node in self.children.values()]) | results
 
     def autocomplete(self, prefix):
         node = self
