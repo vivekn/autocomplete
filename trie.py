@@ -41,5 +41,5 @@ class Trie(object):
             if char not in node.children:
                 return set()
             node = node.children[char]
-        return node.all_prefixes() & self.wordlist
+        return node.all_prefixes(self.wordlist)
 
