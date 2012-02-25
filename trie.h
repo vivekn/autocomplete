@@ -25,18 +25,19 @@ class Trie {
     public:
         map<char, Trie> children;
         string value;
-        set<string> wordlist;
+        bool flag;
 
         Trie(string);
         void add(char);
         string find(string);
         void insert(string);
-        vector<string> all_prefixes(set<string>);
+        vector<string> all_prefixes();
         vector<string> autocomplete(string);
 };
 
 Trie::Trie(string val="") {
     value = val;
+    flag = false;
 }
 
 void Trie::add(char c) {
@@ -60,25 +61,25 @@ string Trie::find(string word) {
 
 void Trie::insert(string word) {
     Trie * node = this;
-    wordlist.insert(word);
     for (int i = 0; i < word.length(); i++) {
         const char c = word[i];
         if (node->children.find(c) == node->children.end())
             node->add(c);
         node = &node->children[c];
     }
+    node->flag = true;
 }
 
-vector<string> Trie::all_prefixes(set<string> wlist) {
+vector<string> Trie::all_prefixes() {
     vector<string> results;
-    if (wlist.find(value) != wlist.end())
+    if (flag)
         results.push_back(value);
 
     if (children.size()) {
         map<char, Trie>::iterator iter;
         vector<string>::iterator node;
         for(iter = children.begin(); iter != children.end(); iter++) {
-            vector<string> nodes = iter->second.all_prefixes(wlist);
+            vector<string> nodes = iter->second.all_prefixes();
             for(node = nodes.begin(); node != nodes.end(); node++) 
                 results.push_back(*node);       
         }
@@ -96,6 +97,6 @@ vector<string> Trie::autocomplete(string prefix) {
         else 
             node = &node->children[c];
     }
-    return node->all_prefixes(wordlist);
+    return node->all_prefixes();
 }
 
