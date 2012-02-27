@@ -9,9 +9,9 @@ import java.util.Map.Entry;
  */
 public class Trie {
 
-    private final Set<String> wordSet;
-    private final Map<Character, Trie> children;
-    private String value;
+    protected final Map<Character, Trie> children;
+    protected String value;
+    protected boolean leaf = false;
 
     public Trie() {
         this(null);
@@ -19,17 +19,17 @@ public class Trie {
 
     private Trie(String value) {
         this.value = value;
-        wordSet = new HashSet<String>();
         children = new HashMap<Character, Trie>();
     }
 
-    public void add(char c) {
-        if (value != null) {
-            value += c;
+    protected void add(char c) {
+        String val;
+        if (this.value == null) {
+            val = Character.toString(c);
         } else {
-            value = Character.toString(c);
+            val = this.value + c;
         }
-        children.put(c, new Trie(value));
+        children.put(c, new Trie(val));
     }
 
     public void insert(String word) {
@@ -37,20 +37,20 @@ public class Trie {
             throw new IllegalArgumentException("Cannot add null to a Trie");
         }
         Trie node = this;
-        wordSet.add(word);
         for (char c : word.toCharArray()) {
             if (!node.children.containsKey(c)) {
                 node.add(c);
             }
             node = node.children.get(c);
         }
+        node.leaf = true;
     }
 
     public String find(String word) {
         Trie node = this;
         for (char c : word.toCharArray()) {
             if (!node.children.containsKey(c)) {
-                return null;
+                return "";
             }
             node = node.children.get(c);
         }
@@ -65,17 +65,17 @@ public class Trie {
             }
             node = node.children.get(c);
         }
-        return node.allPrefixes(wordSet);
+        return node.allPrefixes();
     }
 
-    private Collection<String> allPrefixes(Set<String> wordSet) {
+    protected Collection<String> allPrefixes() {
         List<String> results = new ArrayList<String>();
-        if (wordSet.contains(value)) {
-            results.add(value);
+        if (this.leaf) {
+            results.add(this.value);
         }
         for (Entry<Character, Trie> entry : children.entrySet()) {
             Trie child = entry.getValue();
-            Collection<String> childPrefixes = child.allPrefixes(wordSet);
+            Collection<String> childPrefixes = child.allPrefixes();
             results.addAll(childPrefixes);
         }
         return results;
