@@ -24,7 +24,7 @@ public class TrieTest {
         assertEquals(1, root.children.size());
         Trie child = root.children.get('z');
         assertNotNull(child);
-        assertEquals("z", child.terminal);
+        assertEquals("z", child.value);
     }
 
     /**

@@ -10,24 +10,24 @@ import java.util.Map.Entry;
 public class Trie {
 
     protected final Map<Character, Trie> children;
-    protected String terminal;
-    protected boolean leaf = false;
+    protected String value;
+    protected boolean terminal = false;
 
     public Trie() {
         this(null);
     }
 
     private Trie(String value) {
-        this.terminal = value;
+        this.value = value;
         children = new HashMap<Character, Trie>();
     }
 
     protected void add(char c) {
         String val;
-        if (this.terminal == null) {
+        if (this.value == null) {
             val = Character.toString(c);
         } else {
-            val = this.terminal + c;
+            val = this.value + c;
         }
         children.put(c, new Trie(val));
     }
@@ -43,7 +43,7 @@ public class Trie {
             }
             node = node.children.get(c);
         }
-        node.leaf = true;
+        node.terminal = true;
     }
 
     public String find(String word) {
@@ -54,7 +54,7 @@ public class Trie {
             }
             node = node.children.get(c);
         }
-        return node.terminal;
+        return node.value;
     }
 
     public Collection<String> autoComplete(String prefix) {
@@ -70,8 +70,8 @@ public class Trie {
 
     protected Collection<String> allPrefixes() {
         List<String> results = new ArrayList<String>();
-        if (this.leaf) {
-            results.add(this.terminal);
+        if (this.terminal) {
+            results.add(this.value);
         }
         for (Entry<Character, Trie> entry : children.entrySet()) {
             Trie child = entry.getValue();
