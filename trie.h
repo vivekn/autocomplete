@@ -12,15 +12,6 @@
 
 using namespace std;
 
-string char_to_string(char c) {
-    //  Convert char to string
-    stringstream ss;
-    ss<<c;
-    string res;
-    ss>>res;
-    return res;
-}
-
 class Trie {
     public:
         map<char, Trie> children;
@@ -42,7 +33,7 @@ Trie::Trie(const string &val="") {
 
 void Trie::add(char c) {
     if (value == "") 
-        children[c] = Trie(char_to_string(c));
+        children[c] = Trie(string(1, c));
     else
         children[c] = Trie(value + c);
 }
