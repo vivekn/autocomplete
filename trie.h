@@ -80,8 +80,7 @@ vector<string> Trie::all_prefixes() {
         vector<string>::iterator node;
         for(iter = children.begin(); iter != children.end(); iter++) {
             vector<string> nodes = iter->second.all_prefixes();
-            for(node = nodes.begin(); node != nodes.end(); node++) 
-                results.push_back(*node);       
+            results.insert(results.end(), nodes.begin(), nodes.end());
         }
     }
     return results;
