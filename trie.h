@@ -27,15 +27,15 @@ class Trie {
         string value;
         bool flag;
 
-        Trie(string);
+        Trie(const string &);
         void add(char);
-        string find(string);
-        void insert(string);
+        string find(const string &);
+        void insert(const string &);
         vector<string> all_prefixes();
-        vector<string> autocomplete(string);
+        vector<string> autocomplete(const string &);
 };
 
-Trie::Trie(string val="") {
+Trie::Trie(const string &val="") {
     value = val;
     flag = false;
 }
@@ -47,7 +47,7 @@ void Trie::add(char c) {
         children[c] = Trie(value + c);
 }
 
-string Trie::find(string word) {
+string Trie::find(const string &word) {
     Trie * node = this;
     for (int i = 0; i < word.length(); i++) {
         const char c = word[i];
@@ -59,7 +59,7 @@ string Trie::find(string word) {
     return node->value;
 }
 
-void Trie::insert(string word) {
+void Trie::insert(const string &word) {
     Trie * node = this;
     for (int i = 0; i < word.length(); i++) {
         const char c = word[i];
@@ -86,7 +86,7 @@ vector<string> Trie::all_prefixes() {
     return results;
 }
 
-vector<string> Trie::autocomplete(string prefix) {
+vector<string> Trie::autocomplete(const string &prefix) {
     Trie * node = this;
     vector<string> results;
     for (int i = 0; i < prefix.length(); i++) {
