@@ -12,42 +12,33 @@
 
 using namespace std;
 
-string char_to_string(char c) {
-    //  Convert char to string
-    stringstream ss;
-    ss<<c;
-    string res;
-    ss>>res;
-    return res;
-}
-
 class Trie {
     public:
         map<char, Trie> children;
         string value;
         bool flag;
 
-        Trie(string);
+        Trie(const string &);
         void add(char);
-        string find(string);
-        void insert(string);
+        string find(const string &);
+        void insert(const string &);
         vector<string> all_prefixes();
-        vector<string> autocomplete(string);
+        vector<string> autocomplete(const string &);
 };
 
-Trie::Trie(string val="") {
+Trie::Trie(const string &val="") {
     value = val;
     flag = false;
 }
 
 void Trie::add(char c) {
     if (value == "") 
-        children[c] = Trie(char_to_string(c));
+        children[c] = Trie(string(1, c));
     else
         children[c] = Trie(value + c);
 }
 
-string Trie::find(string word) {
+string Trie::find(const string &word) {
     Trie * node = this;
     for (int i = 0; i < word.length(); i++) {
         const char c = word[i];
@@ -59,7 +50,7 @@ string Trie::find(string word) {
     return node->value;
 }
 
-void Trie::insert(string word) {
+void Trie::insert(const string &word) {
     Trie * node = this;
     for (int i = 0; i < word.length(); i++) {
         const char c = word[i];
@@ -80,14 +71,13 @@ vector<string> Trie::all_prefixes() {
         vector<string>::iterator node;
         for(iter = children.begin(); iter != children.end(); iter++) {
             vector<string> nodes = iter->second.all_prefixes();
-            for(node = nodes.begin(); node != nodes.end(); node++) 
-                results.push_back(*node);       
+            results.insert(results.end(), nodes.begin(), nodes.end());
         }
     }
     return results;
 }
 
-vector<string> Trie::autocomplete(string prefix) {
+vector<string> Trie::autocomplete(const string &prefix) {
     Trie * node = this;
     vector<string> results;
     for (int i = 0; i < prefix.length(); i++) {
