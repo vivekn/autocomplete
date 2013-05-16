@@ -21,13 +21,14 @@ def insert_array():
 		arr.append(words[i])
 
 def trie_autocomplete():
-	word = choice(words)[:3]
-	trie.autocomplete(word)
+	for i in xrange(n):
+		word = choice(words)[:3]
+		trie.autocomplete(word)
 
 def array_autocomplete():
 	for i in xrange(n):
 		word = choice(words)[:3]
-		trie.autocomplete(word)
+		a = [w for w in words if w.startswith(word)]
 
 def timefn(f, times):
 	for i in xrange(n):
@@ -42,8 +43,8 @@ def timefn(f, times):
 def benchmark():
 	print "array insertion: %.10f" % timefn(insert_array, 5)
 	print "trie insertion: %.10f" % timefn(insert_trie, 5)
-	print "array autocomplete: %.10f" % timefn(array_autocomplete, 5)
-	print "trie autocomplete: %.10f" % timefn(trie_autocomplete, 5)
+	print "array autocomplete: %.10f" % timefn(array_autocomplete, 1)
+	print "trie autocomplete: %.10f" % timefn(trie_autocomplete, 1)
 
 if __name__ == '__main__':
 	benchmark()
