@@ -1,3 +1,8 @@
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0,parentdir) 
+
 from __future__ import division
 from trie import Trie
 from sys import argv
@@ -10,7 +15,7 @@ n = 1000
 if len(argv) > 1:
 	n = int(argv[1])
 
-words = [line for line in open("benchmarking/wordlist")][:n]
+words = [line for line in open(os.path.join(currentdir, "wordlist"))][:n]
 
 def insert_trie():
 	for i in xrange(n):
