@@ -1,7 +1,21 @@
-require "../trie"
+$in_bench_dir = true
+begin
+  require "../trie"
+rescue LoadError
+  $in_bench_dir = false
+  require "./trie"
+end
 require "benchmark"
 
-wl = "wordlist"
+def prefix
+  if !$in_bench_dir
+    "benchmarking" + File::SEPARATOR
+  else
+    ""
+  end
+end
+
+wl = prefix + "wordlist"
 n = ARGV[0].to_i || 100
 
 Benchmark.bm do |x|
@@ -16,7 +30,7 @@ Benchmark.bm do |x|
   end
 end
 
-$words = File.open("wordlist").readlines
+$words = File.open(prefix + "wordlist").readlines
 $len = $words.length
 $rand = Random.new
 
