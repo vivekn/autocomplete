@@ -56,30 +56,37 @@ func (t *Trie) Insert(value string) {
 }
 
 func (t *Trie) Find(value rune) (*Trie, error) {
-	for _, child := range t.Children {
-		if child.Value == value {
-			return child.Link, nil
+	if t != nil {
+		for _, child := range t.Children {
+			if child.Value == value {
+				return child.Link, nil
+			}
 		}
 	}
 	return nil, errors.New("Value not found")
 }
 
-func (t *Trie) AllPrefixes() []string {
+func (t *Trie) AllPrefixes() ([]string, error) {
 	results := []string{}
+	if t != nil {
+		if t.End == true {
+			results = append(results, t.Value)
+		}
 
-	if t.End == true {
-		results = append(results, t.Value)
+		for _, val := range t.Children {
+			prefixes, err := val.Link.AllPrefixes()
+			if err != nil {
+				break
+			}
+			results = append(results, prefixes...)
+		}
+	} else {
+		return results, errors.New("No end found, so no completions available")
 	}
-
-	for _, val := range t.Children {
-		prefixes := val.Link.AllPrefixes()
-		results = append(results, prefixes...)
-	}
-
-	return results
+	return results, nil
 }
 
-func (t *Trie) AutoComplete(prefix string) []string {
+func (t *Trie) AutoComplete(prefix string) ([]string, error) {
 	trie := t
 
 	for _, val := range prefix {
@@ -87,7 +94,7 @@ func (t *Trie) AutoComplete(prefix string) []string {
 		trie = link
 	}
 
-	results := trie.AllPrefixes()
+	results, err := trie.AllPrefixes()
 
-	return results
+	return results, err
 }
