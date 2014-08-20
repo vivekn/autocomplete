@@ -22,3 +22,6 @@ like this, in Ruby notation:
     trie = Trie.new
     trie.insert("word")
     array_of_words_that_begin_with = trie.autocomplete("wo")
+
+
+**License** - BSD
