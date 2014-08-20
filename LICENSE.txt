@@ -1,4 +1,4 @@
-Copyright (c) 2014, Vivek Narayanan
+Copyright (c) 2012, Vivek Narayanan, Colin Dean, Marcus McCurdy
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
