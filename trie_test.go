@@ -59,7 +59,10 @@ func TestAutocomplete(t *testing.T) {
 		trie.Insert(val)
 	}
 
-	results := trie.AutoComplete(search)
+	results, err := trie.AutoComplete(search)
+    if err != nil {
+        t.Error("An error occurred")
+    }
 
 	if len(results) != len(result) || results[0] != result[0] || results[1] != result[1] {
 		t.Errorf("trie.AutoComplete(%s) returned %d: %v (should be %d results: %v)", string(search), len(results), results, len(result), result)
