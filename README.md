@@ -7,6 +7,7 @@ Implementations
 ---------------
 
 * C++ - Vivek Narayanan (@vivekn)
+* Go - Martijn van Maasakkers (@mvmaasakkers)
 * Java - Marcus McCurdy (@volker48)
 * Python - Vivek Narayanan (@vivekn)
 * Ruby - Colin Dean (@colindean)
