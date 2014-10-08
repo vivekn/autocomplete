@@ -22,7 +22,7 @@ class Trie(object):
         node = self
         for char in word:
             if char not in node.children:
-                return None
+                return False
             node = node.children[char]
         return node.flag
 
