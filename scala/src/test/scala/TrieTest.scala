@@ -11,6 +11,16 @@ class TrieTest extends WordSpec with Matchers {
       t.children.size should be(1)
       t.children.head._2.value.get should be("f")
     }
+
+    "insert a two single character strings" in {
+      val t = new Trie()
+      t.insert("f")
+      t.insert("z")
+
+      t.children.size should be(2)
+      t.children.head._2.value.get should be("f")
+      t.children.tail.head._2.value.get should be("z")
+    }
   }
 
 }
