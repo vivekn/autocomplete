@@ -29,7 +29,7 @@ class Trie extends TrieLike {
       if(children.contains(char)){
         current = children(char)
       } else {
-        current = add(char)
+        current = current.add(char)
       }
     }
     current.value = Some(word)
