@@ -80,6 +80,37 @@ class TrieTest extends WordSpec with Matchers {
       trie.children.size should be(2)
       trie.children.keySet shouldEqual(Set('f', 'w'))
     }
+
+    "contain a single character string inserted" in {
+      val trie = new Trie()
+      trie.insert("f")
+      trie.contains("f") should be(true)
+    }
+
+    "does not contain a string when nothing was inserted" in {
+      val trie = new Trie()
+      trie.contains("a") should be(false)
+    }
+
+    "does not contain a single character string that was not inserted" in {
+      val trie = new Trie()
+      trie.insert("f")
+      trie.contains("a") should be(false)
+    }
+
+    "contain a single, multicharacter string inserted" in {
+      val trie = new Trie()
+      trie.insert("what")
+      trie.contains("what") should be(true)
+    }
+
+    "contain both of two multicharacter strings inserted" in {
+      val trie = new Trie()
+      trie.insert("what")
+      trie.insert("who")
+      trie.contains("what") should be(true)
+      trie.contains("who") should be(true)
+    }
   }
 
 }

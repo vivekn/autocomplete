@@ -38,7 +38,16 @@ class Trie extends TrieLike {
    * @param word the word to find
    * @return true if the word is in the trie already, false if not
    */
-  def contains(word: String): Boolean = ???
+  def contains(word: String): Boolean = {
+    var current = Option(this)
+    word.foreach { (char: Char) =>
+      current = current.get.children.get(char)
+    }
+    current match {
+      case Some(x) if x.value.nonEmpty => true
+      case None => false
+    }
+  }
 
 
   def allPrefixes: Set[String] = ???
