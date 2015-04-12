@@ -49,8 +49,13 @@ class Trie extends TrieLike {
     }
   }
 
-
-  def allPrefixes: Set[String] = ???
+  /**
+   * Provides a list of all values in the trie
+   * @return a set of values, the current trie's value followed by its children
+   */
+  def allPrefixes: Set[String] = {
+    value.fold[Set[String]](Set.empty)(Set(_)) ++ children.flatMap{ case(_, trie) => trie.allPrefixes}
+  }
 
   /**
    * Retrieve a set of words that begin with a given string

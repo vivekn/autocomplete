@@ -112,6 +112,13 @@ class TrieTest extends WordSpec with Matchers {
 
       f.trie.toString shouldEqual("{w: {h: {o: 'who'},{e: {r: {e: 'where'}}}}},{h: {o: {w: 'how'}}}")
     }
+
+    "provide a list of all values inserted" in {
+      val words = List("who", "where", "how")
+      val f = trieWithInsertions(words)
+
+      f.trie.allPrefixes should contain theSameElementsAs words
+    }
   }
 
   def trieWithInsertions(toInsert: List[String] = List.empty) = {
