@@ -72,63 +72,58 @@ class TrieTest extends WordSpec with Matchers {
     }
 
     "insert two multicharacter strings that do not have the same prefix" in {
-      val trie = new Trie()
+      val f = trieWithInsertions(List("what","fun"))
 
-      trie.insert("what")
-      trie.insert("fun")
-
-      trie.children.size should be(2)
-      trie.children.keySet shouldEqual(Set('f', 'w'))
+      f.trie.children.keySet shouldEqual(Set('f', 'w'))
     }
 
     "contain a single character string inserted" in {
-      val trie = new Trie()
-      trie.insert("f")
-      trie.contains("f") should be(true)
+      val f = trieWithInsertions(List("f"))
+
+      f.trie.contains("f") should be(true)
     }
 
     "does not contain a string when nothing was inserted" in {
-      val trie = new Trie()
-      trie.contains("a") should be(false)
+      val f = trieWithInsertions()
+
+      f.trie.contains("a") should be(false)
     }
 
     "does not contain a single character string that was not inserted" in {
-      val trie = new Trie()
-      trie.insert("f")
-      trie.contains("a") should be(false)
+      val f = trieWithInsertions(List("f"))
+
+      f.trie.contains("a") should be(false)
     }
 
     "contain a single, multicharacter string inserted" in {
-      val trie = new Trie()
-      trie.insert("what")
-      trie.contains("what") should be(true)
+      val f = trieWithInsertions(List("what"))
+
+      f.trie.contains("what") should be(true)
     }
 
     "contain both of two multicharacter strings inserted" in {
-      val trie = new Trie()
-      trie.insert("what")
-      trie.insert("who")
-      trie.contains("what") should be(true)
-      trie.contains("who") should be(true)
+      val words = List("who", "what")
+      val f = trieWithInsertions(words)
+
+      words.foreach( word => f.trie.contains(word) should be(true) )
     }
 
     "become a nicely formatted string" in {
-      val trie = new Trie
-      trie.insert("hello")
+      val f = trieWithInsertions(List("hello"))
 
-      println(trie.toString)
-      trie.toString shouldEqual("{h: {e: {l: {l: {o: 'hello'}}}}}")
+      f.trie.toString shouldEqual("{h: {e: {l: {l: {o: 'hello'}}}}}")
     }
 
     "be readable when there are multiple words" in {
-      val trie = new Trie
-      trie.insert("who")
-      trie.insert("where")
-      trie.insert("how")
+      val f = trieWithInsertions(List("who", "where", "how"))
 
-      println(trie.toString)
+      f.trie.toString shouldEqual("{w: {h: {o: 'who'},{e: {r: {e: 'where'}}}}},{h: {o: {w: 'how'}}}")
+    }
+  }
 
-      trie.toString shouldEqual("{w: {h: {o: 'who'},{e: {r: {e: 'where'}}}}},{h: {o: {w: 'how'}}}")
+  def trieWithInsertions(toInsert: List[String] = List.empty) = {
+    new {
+      val trie = toInsert.foldLeft(new Trie)( (trie, word) => {trie.insert(word); trie})
     }
   }
 
