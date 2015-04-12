@@ -117,21 +117,21 @@ class TrieTest extends WordSpec with Matchers {
       val words = List("who", "where", "how")
       val trie = trieWithInsertions(words).theTrie
 
-      trie.allPrefixes should contain theSameElementsAs words
+      trie.allValues should contain theSameElementsAs words
     }
 
     "provide a list of values that begin with a prefix" in {
       val words = List("who", "where", "how")
       val trie = trieWithInsertions(words).theTrie
 
-      trie.autocomplete("wh") should contain theSameElementsAs words.takeWhile(_.startsWith("wh"))
+      trie.valuesWithPrefix("wh") should contain theSameElementsAs words.takeWhile(_.startsWith("wh"))
     }
 
     "have only one entry when multiples of the same word are inserted" in {
       val words = List("who", "where", "who")
       val trie = trieWithInsertions(words).theTrie
 
-      trie.allPrefixes should have size 2
+      trie.allValues should have size 2
     }
   }
 

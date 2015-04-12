@@ -11,7 +11,7 @@ class Trie extends TrieLike {
    * @param char
    * @return
    */
-  def add(char: Char): Trie = {
+  protected def add(char: Char): Trie = {
     val trie = new Trie
     children = children + (char -> trie)
     trie
@@ -29,7 +29,6 @@ class Trie extends TrieLike {
         current = current.children.getOrElse(char, current.add(char))
     }
     current.value = Some(word)
-
   }
 
   /**
@@ -53,20 +52,20 @@ class Trie extends TrieLike {
    * Provides a list of all values in the trie
    * @return a set of values, the current trie's value followed by its children
    */
-  def allPrefixes: Set[String] = {
-    value.fold[Set[String]](Set.empty)(Set(_)) ++ children.flatMap{ case(_, trie) => trie.allPrefixes}
+  def allValues: Set[String] = {
+    value.fold[Set[String]](Set.empty)(Set(_)) ++ children.flatMap{ case(_, trie) => trie.allValues}
   }
 
   /**
    * Retrieve a set of words that begin with a given string
    * @return all members of the trie that begin with the given string
    */
-  def autocomplete(beginningWith: String): Set[String] = {
+  def valuesWithPrefix(prefix: String): Set[String] = {
     var current = this
-    beginningWith.foreach { (char: Char) =>
+    prefix.foreach { (char: Char) =>
       current = current.children.getOrElse(char, new Trie)
     }
-    current.allPrefixes
+    current.allValues
   }
 
   override def toString: String = {
