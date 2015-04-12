@@ -61,7 +61,13 @@ class Trie extends TrieLike {
    * Retrieve a set of words that begin with a given string
    * @return all members of the trie that begin with the given string
    */
-  def autocomplete(beginningWith: String): Set[String] = ???
+  def autocomplete(beginningWith: String): Set[String] = {
+    var current = this
+    beginningWith.foreach { (char: Char) =>
+      current = current.children.getOrElse(char, new Trie)
+    }
+    current.allPrefixes
+  }
 
   override def toString: String = {
     children.map { case (char, trie) =>
