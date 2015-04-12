@@ -24,11 +24,9 @@ class Trie extends TrieLike {
    * @return
    */
   def insert(word: String) = {
-    var current = this
-    word.foreach { (char: Char) =>
-        current = current.children.getOrElse(char, current.add(char))
-    }
-    current.value = Some(word)
+    val child = findDeepestChildWithDefault(prefix = word,
+                                    defaultWhenNotFound = (char, trie) => trie.add(char))
+    child.value = Some(word)
   }
 
   /**
@@ -61,11 +59,17 @@ class Trie extends TrieLike {
    * @return all members of the trie that begin with the given string
    */
   def valuesWithPrefix(prefix: String): Set[String] = {
+    val child = findDeepestChildWithDefault(prefix,
+                                    defaultWhenNotFound = (_,_) => new Trie)
+    child.allValues
+  }
+
+  private def findDeepestChildWithDefault(prefix: String, defaultWhenNotFound: (Char, Trie) => Trie): Trie = {
     var current = this
     prefix.foreach { (char: Char) =>
-      current = current.children.getOrElse(char, new Trie)
+      current = current.children.getOrElse(char, defaultWhenNotFound(char, current))
     }
-    current.allValues
+    return current
   }
 
   override def toString: String = {
