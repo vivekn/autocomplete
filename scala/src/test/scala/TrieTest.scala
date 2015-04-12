@@ -6,31 +6,27 @@ class TrieTest extends WordSpec with Matchers {
 
   "The Trie" should {
     "insert a single character string" in {
-      val t = new Trie()
-      t.insert("f")
-      t.children.size should be(1)
-      t.children.head._2.value.get should be("f")
+      val f = trieWithInsertions(List("f"))
+
+      f.trie.children.size should be(1)
+      f.trie.children.head._2.value.get should be("f")
     }
 
     "insert a two single character strings" in {
-      val t = new Trie()
-      t.insert("f")
-      t.insert("z")
+      val f = trieWithInsertions(List("f","z"))
 
-      t.children.size should be(2)
-      t.children.head._2.value.get should be("f")
-      t.children.tail.head._2.value.get should be("z")
+      f.trie.children.size should be(2)
+      f.trie.children.head._2.value.get should be("f")
+      f.trie.children.tail.head._2.value.get should be("z")
     }
 
     "insert one multicharacter string" in {
-      val trie = new Trie()
+      val f = trieWithInsertions(List("what"))
 
-      trie.insert("what")
+      f.trie.children.size should be(1)
+      f.trie.children.head._2.value should be(None) // because it's not a leaf
 
-      trie.children.size should be(1)
-      trie.children.head._2.value should be(None) // because it's not a leaf
-
-      val w: (Char, Trie) = trie.children.head
+      val w: (Char, Trie) = f.trie.children.head
       val h: (Char, Trie) = w._2.children.head
       val a: (Char, Trie) = h._2.children.head
       val t: (Char, Trie) = a._2.children.head
@@ -46,14 +42,11 @@ class TrieTest extends WordSpec with Matchers {
     }
 
     "insert two multicharacter strings what begin with the same prefix" in {
-      val trie = new Trie()
+      val f = trieWithInsertions(List("what","who"))
 
-      trie.insert("what")
-      trie.insert("who")
+      f.trie.children.size should be(1)
 
-      trie.children.size should be(1)
-
-      val w: (Char, Trie) = trie.children.head
+      val w: (Char, Trie) = f.trie.children.head
       val h: (Char, Trie) = w._2.children.head
       val a: (Char, Trie) = h._2.children.head
       val t: (Char, Trie) = a._2.children.head
