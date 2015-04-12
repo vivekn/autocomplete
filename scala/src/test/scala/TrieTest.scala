@@ -111,6 +111,25 @@ class TrieTest extends WordSpec with Matchers {
       trie.contains("what") should be(true)
       trie.contains("who") should be(true)
     }
+
+    "become a nicely formatted string" in {
+      val trie = new Trie
+      trie.insert("hello")
+
+      println(trie.toString)
+      trie.toString shouldEqual("{h: {e: {l: {l: {o: 'hello'}}}}}")
+    }
+
+    "be readable when there are multiple words" in {
+      val trie = new Trie
+      trie.insert("who")
+      trie.insert("where")
+      trie.insert("how")
+
+      println(trie.toString)
+
+      trie.toString shouldEqual("{w: {h: {o: 'who'},{e: {r: {e: 'where'}}}}},{h: {o: {w: 'how'}}}")
+    }
   }
 
 }

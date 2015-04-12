@@ -57,4 +57,10 @@ class Trie extends TrieLike {
    * @return all members of the trie that begin with the given string
    */
   def autocomplete(beginningWith: String): Set[String] = ???
+
+  override def toString: String = {
+    children.map { case (char, trie) =>
+      s"{$char: ${trie.toString}${trie.value.map(v => s"'$v'").getOrElse("")}}"
+    }.mkString(",")
+  }
 }
