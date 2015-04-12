@@ -27,8 +27,6 @@ class TrieTest extends WordSpec with Matchers {
 
       trie.insert("what")
 
-      println(trie.children.toString())
-
       trie.children.size should be(1)
       trie.children.head._2.value should be(None) // because it's not a leaf
 
@@ -53,8 +51,6 @@ class TrieTest extends WordSpec with Matchers {
       trie.insert("what")
       trie.insert("who")
 
-      println(trie.children.toString())
-
       trie.children.size should be(1)
 
       val w: (Char, Trie) = trie.children.head
@@ -73,6 +69,16 @@ class TrieTest extends WordSpec with Matchers {
       t._1 should be('t')
       t._2.value should be(Some("what"))
       o._2.value should be(Some("who"))
+    }
+
+    "insert two multicharacter strings that do not have the same prefix" in {
+      val trie = new Trie()
+
+      trie.insert("what")
+      trie.insert("fun")
+
+      trie.children.size should be(2)
+      trie.children.keySet shouldEqual(Set('f', 'w'))
     }
   }
 
