@@ -26,7 +26,7 @@ class Trie extends TrieLike {
   def insert(word: String) = {
     var current = this
     word.foreach { (char: Char) =>
-        current = children.getOrElse(char, current.add(char))
+        current = current.children.getOrElse(char, current.add(char))
     }
     current.value = Some(word)
 
