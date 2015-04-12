@@ -126,6 +126,13 @@ class TrieTest extends WordSpec with Matchers {
 
       f.trie.autocomplete("wh") should contain theSameElementsAs words.takeWhile(_.startsWith("wh"))
     }
+
+    "have only one entry when multiples of the same word are inserted" in {
+      val words = List("who", "where", "who")
+      val f = trieWithInsertions(words)
+
+      f.trie.allPrefixes should have size(2)
+    }
   }
 
   def trieWithInsertions(toInsert: List[String] = List.empty) = {
