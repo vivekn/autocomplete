@@ -8,8 +8,8 @@ class Trie extends TrieLike {
   /**
    * Add the current trie's value to its children
    *
-   * @param char
-   * @return
+   * @param char the index at which to add the new trie
+   * @return the newly added trie
    */
   protected def add(char: Char): Trie = {
     val trie = new Trie
