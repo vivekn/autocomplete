@@ -1,1 +1,5 @@
 /java/target/
+/scala/target/
+/scala/project/target/
+/scala/project/project/
+*.idea
