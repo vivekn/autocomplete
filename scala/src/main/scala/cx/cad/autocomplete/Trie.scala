@@ -20,7 +20,7 @@ class Trie extends TrieLike {
   /**
    * Inserts a word into the trie structure
    *
-   * @param word
+   * @param word word to insert
    * @return
    */
   def insert(word: String) = {
