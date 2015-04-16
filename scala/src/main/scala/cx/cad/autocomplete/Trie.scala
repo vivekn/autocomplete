@@ -69,7 +69,7 @@ class Trie extends TrieLike {
     prefix.foreach { (char: Char) =>
       current = current.children.getOrElse(char, defaultWhenNotFound(char, current))
     }
-    return current
+    current
   }
 
   override def toString: String = {
