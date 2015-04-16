@@ -1,6 +1,7 @@
 package cx.cad.autocomplete
 
 import org.scalatest.{Matchers, WordSpec}
+
 import scala.language.reflectiveCalls
 
 class TrieTest extends WordSpec with Matchers {
